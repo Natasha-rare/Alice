@@ -16,15 +16,19 @@ cities = {
                '213044/7df73ae4cc715175059e'],
     'нью-йорк': ['1652229/728d5c86707054d4745f',
                  '1030494/aca7ed7acefde2606bdc'],
-    'париж': ['1652229/d4772a5a54327d17126a']
+    'париж': ["1652229/f77136c2364eb90a3ea8",
+              '3450494/aca7ed7acefde22341bdc']
 }
 
 # создаем словарь, где для каждого пользователя
 # мы будем хранить его имя
 sessionStorage = {}
+
+
 @app.route('/', methods=['GET'])
 def index():
-    return 'hell'
+    return "Hello_flask"
+
 
 @app.route('/post', methods=['POST'])
 def main():
