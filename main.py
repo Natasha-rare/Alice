@@ -79,8 +79,6 @@ def handle_dialog(res, req):
             elif 'нет' in req['request']['nlu']['tokens']:
                 res['response']['text'] = 'Ну и ладно!'
                 res['end_session'] = True
-            elif 'покажи' in req['request']['original_utterance'].lower():
-                res['response']['text'] = city1[sessionStorage[user_id]['guessed_cities'][-1]]
             elif req['request']['original_utterance'].lower() == 'помощь':
                 res['response']['text'] = 'Это текст помомщи. Будь смелее и продолжи общение.'
             else:
@@ -143,7 +141,8 @@ def play_game(res, req):
                 },
                 {
                     'title': 'Покажи город на карте',
-                    'hide': True
+                    "url": f"https://market.yandex.ru/search?text={city}",
+                    "hide": True
                 }
             ]
             sessionStorage[user_id]['guessed_cities'].append(city)
