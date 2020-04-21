@@ -11,10 +11,6 @@ cities = {
     'париж': ['1540737/355c802a54c0d3c2ce38', '965417/429d880b7c62324751f1']
 }
 
-city1 = { 'москва': 'https://yandex.ru/maps/?mode=search&text=Москва',
-         'нью-йорк': 'https://yandex.ru/maps/?mode=search&text=Нью-Йорк',
-         'париж': 'https://yandex.ru/maps/?mode=search&text=Париж'
-}
 sessionStorage = {}
 
 
@@ -141,7 +137,7 @@ def play_game(res, req):
                 },
                 {
                     'title': 'Покажи город на карте',
-                    "url": f"https://market.yandex.ru/search?text={city}",
+                    "url": f"https://yandex.ru/maps/?mode=search&text{city}",
                     "hide": True
                 }
             ]
