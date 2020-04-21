@@ -146,6 +146,7 @@ def play_game(res, req):
             ]
             if req['request']['original_utterance'].lower() == 'покажи город на карте':
                 res['response']['text'] = city1[city]
+                return
             sessionStorage[user_id]['guessed_cities'].append(city)
             sessionStorage[user_id]['game_started'] = False
             return
