@@ -52,3 +52,7 @@ def get_distance(p1, p2):
     distance = R * c
 
     return distance
+
+
+def get_geo_info(city_name, type_info):
+    pass

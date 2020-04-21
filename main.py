@@ -10,42 +10,39 @@ import requests
 from math import sin, cos, sqrt, atan2, radians
 
 
-def get_coordinates(city):
+def get_geo_info(city_name, type_info):
+    if type_info == 'country':
+        url = "https://geocode-maps.yandex.ru/1.x/"
 
-    url = "https://geocode-maps.yandex.ru/1.x/"
+        params = {
+            "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
+            'geocode': city_name,
+            'format': 'json'
+        }
 
-    params = {
-        "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
-        'geocode': city,
-        'format': 'json'
-    }
+        response = requests.get(url, params)
+        json = response.json()
 
-    response = requests.get(url, params)
-    json = response.json()
-    point_str = json['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos']
-    point_array = [float(x) for x in point_str.split(' ')]
+        return json['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['metaDataProperty'][
+            'GeocoderMetaData']['AddressDetails']['Country']['CountryName']
+    else:
+        url = "https://geocode-maps.yandex.ru/1.x/"
 
-    return point_array
+        params = {
+            "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
+            'geocode': city_name,
+            'format': 'json'
+        }
 
+        response = requests.get(url, params)
+        json = response.json()
+        point_str = json['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos']
+        point_array = [float(x) for x in point_str.split(' ')]
 
-def get_country(city):
-
-    url = "https://geocode-maps.yandex.ru/1.x/"
-
-    params = {
-        "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
-        'geocode': city,
-        'format': 'json'
-    }
-
-    response = requests.get(url, params)
-    json = response.json()
-
-    return json['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['metaDataProperty']['GeocoderMetaData']['AddressDetails']['Country']['CountryName']
+        return point_array
 
 
 def get_distance(p1, p2):
-
     R = 6373.0
 
     lon1 = radians(p1[0])
@@ -108,11 +105,11 @@ def handle_dialog(res, req):
 
     elif len(cities) == 1:
 
-        res['response']['text'] = 'Этот город в стране - ' + get_country(cities[0])
+        res['response']['text'] = 'Этот город в стране - ' + get_geo_info(cities[0], 'country')
 
     elif len(cities) == 2:
 
-        distance = get_distance(get_coordinates(cities[0]), get_coordinates(cities[1]))
+        distance = get_distance(get_geo_info(cities[0], 'coordinates'), get_geo_info(cities[1], 'coordinates'))
         res['response']['text'] = 'Расстояние между этими городами: ' + str(round(distance)) + ' км.'
 
     else:
@@ -132,6 +129,7 @@ def get_cities(req):
                 cities.append(entity['value']['city'])
 
     return cities
+
 
 if __name__ == '__main__':
     app.run()
