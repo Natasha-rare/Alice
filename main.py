@@ -68,6 +68,7 @@ number = 0
 
 def handle_dialog(req, res):
     global number, sessionStorage
+
     user_id = req['session']['user_id']
 
     if req['session']['new']:
@@ -96,14 +97,11 @@ def handle_dialog(req, res):
     if number == 0:
         for i in ['ладно', 'куплю', 'покупаю', 'хорошо']:
             if i in req['request']['original_utterance'].lower() and "не" not in req['request']['original_utterance'].lower():
-                res['response']['text'] = 'Слона можно найти на Яндекс.Маркете! А купи еще кролика!'
-                sessionStorage[user_id] = {
-                    'suggests': [
+                sessionStorage[user_id]['suggest'] = [
                         "Не хочу.",
                         "Не буду.",
-                        "Отстань!",
-                    ]
-                }
+                        "Отстань!"]
+                res['response']['text'] = 'Слона можно найти на Яндекс.Маркете! А купи еще кролика!'
                 res['response']['buttons'] = get_suggests(user_id)
                 number += 1
                 return
@@ -142,10 +140,16 @@ def get_suggests(user_id):
 
     # Если осталась только одна подсказка, предлагаем подсказку
     # со ссылкой на Яндекс.Маркет.
-    if len(suggests) < 2:
+    if len(suggests) < 2 and number == 0:
         suggests.append({
             "title": "Ладно",
             "url": "https://market.yandex.ru/search?text=слон",
+            "hide": True
+        })
+    elif len(suggests) < 2:
+        suggests.append({
+            "title": "Ладно",
+            "url": "https://market.yandex.ru/search?text=rhjkbr",
             "hide": True
         })
 
