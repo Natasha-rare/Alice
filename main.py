@@ -64,8 +64,10 @@ def main():
     return json.dumps(response)
 
 number = 0
+
+
 def handle_dialog(req, res):
-    global number
+    global number, sessionStorage
     user_id = req['session']['user_id']
 
     if req['session']['new']:
@@ -121,7 +123,7 @@ def handle_dialog(req, res):
         res['response']['text'] = \
             f"Все говорят '{req['request']['original_utterance']}', а ты купи кролика!"
         res['response']['buttons'] = get_suggests(user_id)
-
+    return
 
 
 # Функция возвращает две подсказки для ответа.
