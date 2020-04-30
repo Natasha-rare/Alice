@@ -91,7 +91,7 @@ def handle_dialog(req, res):
     # Если он написал 'ладно', 'куплю', 'покупаю', 'хорошо',
     # то мы считаем, что пользователь согласился.
     # Подумайте, всё ли в этом фрагменте написано "красиво"?
-    if number == 1:
+    if number == 0:
         for i in ['ладно', 'куплю', 'покупаю', 'хорошо']:
             if i in req['request']['original_utterance'].lower() and "не" not in req['request']['original_utterance'].lower():
                 res['response']['text'] = 'Слона можно найти на Яндекс.Маркете! А купи еще кролика!'
