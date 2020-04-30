@@ -63,7 +63,7 @@ def main():
     # Преобразовываем в JSON и возвращаем
     return json.dumps(response)
 
-number = 0
+
 
 
 def handle_dialog(req, res):
@@ -72,7 +72,7 @@ def handle_dialog(req, res):
     user_id = req['session']['user_id']
 
     if req['session']['new']:
-
+        number = 0
         sessionStorage[user_id] = {
             'suggests': [
                 "Не хочу.",
